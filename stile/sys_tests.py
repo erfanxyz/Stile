@@ -1478,7 +1478,6 @@ class BaseScatterPlotSysTest(SysTest):
         else:
             raise ValueError('stat should be mean or median.')
 
-
 class ScatterPlotStarVsPSFG1SysTest(BaseScatterPlotSysTest):
     short_name = 'scatterplot_star_vs_psf_g1'
     long_name = 'Make a scatter plot of star g1 vs psf g1'
