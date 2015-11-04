@@ -505,6 +505,7 @@ class BaseCorrelationFunctionSysTest(SysTest):
         # Plot the first thing
         curr_plot = 0
         ax = fig.add_subplot(nrows, 1, 1)
+        ax.axhline(0, alpha=0.7, color='gray')
         ax.errorbar(data[r], data[pd.t_field], yerr=data[pd.sigma_field], color=colors[0],
                     label=pd.t_title)
         if pd.x_title and plot_bmode:
@@ -521,6 +522,7 @@ class BaseCorrelationFunctionSysTest(SysTest):
         if pd.x_field and plot_bmode and pd.t_im_field:
             # Both yb and y_im: plot (y, yb) on one plot and (y_im, yb_im) on the other.
             ax = fig.add_subplot(nrows, 1, 2)
+            ax.axhline(0, alpha=0.7, color='gray')
             ax.errorbar(data[r], data[pd.t_im_field], yerr=data[pd.sigma_field], color=colors[0],
                         label=pd.t_im_title)
             ax.errorbar(data[r], data[pd.x_im_field], yerr=data[pd.sigma_field], color=colors[1],
@@ -533,6 +535,7 @@ class BaseCorrelationFunctionSysTest(SysTest):
         if plot_data_only and pd.datarandom_t_field:  # Plot the data-only measurements if requested
             curr_plot += 1
             ax = fig.add_subplot(nrows, 1, 2)
+            ax.axhline(0, alpha=0.7, color='gray')
             ax.errorbar(data[r], data[pd.datarandom_t_field+'d'], yerr=data[pd.sigma_field],
                         color=colors[0], label=pd.datarandom_t_title+'d}$')
             if plot_bmode and pd.datarandom_x_field:
@@ -546,6 +549,7 @@ class BaseCorrelationFunctionSysTest(SysTest):
         # Plot the randoms-only measurements if requested
         if plot_random_only and pd.datarandom_t_field:
             ax = fig.add_subplot(nrows, 1, nrows)
+            ax.axhline(0, alpha=0.7, color='gray')
             ax.errorbar(data[r], data[pd.datarandom_t_field+'r'], yerr=data[pd.sigma_field],
                         color=colors[0], label=pd.datarandom_t_title+'r}$')
             if plot_bmode and pd.datarandom_x_field:
