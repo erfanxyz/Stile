@@ -138,25 +138,16 @@ def CorrelationFunctionSysTest(type=None):
         - GalaxyShear: tangential and cross shear of 'galaxy' type objects around 'galaxy lens' 
           type objects (point-shear correlation function)
         - BrightStarShear: tangential and cross shear of 'galaxy' type objects around 'star bright'
-<<<<<<< HEAD
           type objects (point-shear)
         - StarXGalaxyDensity: number density of 'galaxy' objects around 'star' objects (point-point)
+        - StarXGalaxyShear: shear-shear cross correlation of 'galaxy' and 'star' type objects 
+          (shear-shear)
         - StarXStarShear: autocorrelation of the shapes of 'star' type objects (shear-shear)
         - StarXStarSize: autocorrelation of the size residuals for 'star' type objects relative to
           PSF sizes (scalar-scalar)
         - GalaxyDensityCorrelation: position autocorrelation of 'galaxy' type objects (point-point)
         - StarDensityCorrelation: position autocorrelation of 'star' type objects (point-point)
         - Rho1: rho1 statistics (autocorrelation of residual star shapes, shear-shear)
-=======
-          type objects
-        - StarXGalaxyDensity: number density of 'galaxy' objects around 'star' objects
-        - StarXGalaxyShear: shear-shear cross correlation of 'galaxy' and 'star' type objects
-        - StarXStarShear: autocorrelation of the shapes of 'star' type objects
-        - StarXStarSize: autocorrelation of the size residuals for 'star' type objects relative to PSF sizes
-        - GalaxyDensityCorrelation: position autocorrelation of 'galaxy' type objects
-        - StarDensityCorrelation: position autocorrelation of 'star' type objects
-        - Rho1: rho1 statistics (autocorrelation of residual star shapes)
->>>>>>> 13b8127b6a881f9ae102c889a86b51e52feec124
         - None: an empty BaseCorrelationFunctionSysTest class instance, which can be used for 
           multiple types of correlation functions.  See the documentation for 
           BaseCorrelationFunctionSysTest for more details.  Note that this type has a 
