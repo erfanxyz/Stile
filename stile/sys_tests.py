@@ -137,6 +137,8 @@ def CorrelationFunctionSysTest(type=None):
         - StarXGalaxyShear: shear-shear cross correlation of 'galaxy' and 'star' type objects
           (shear-shear)
         - StarXGalaxyDensity: number density of 'galaxy' objects around 'star' objects (point-point)
+        - StarXGalaxyShear: shear-shear cross correlation of 'galaxy' and 'star' type objects 
+          (shear-shear)
         - StarXStarShear: autocorrelation of the shapes of 'star' type objects (shear-shear)
         - StarXStarSize: autocorrelation of the size residuals for 'star' type objects relative to
           PSF sizes (scalar-scalar)
