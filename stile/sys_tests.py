@@ -7,7 +7,9 @@ import stile_utils
 try:
     import treecorr
     from treecorr.corr2 import corr2_valid_params
+    has_treecorr = True
 except ImportError:
+    has_treecorr = False
     import warnings
     warnings.warn("treecorr package cannot be imported. You may "+
                   "wish to install it if you would like to use the correlation functions within "+
@@ -108,7 +110,7 @@ class PlotDetails(object):
         self.sigma_field = sigma_field  # 1-sigma error bar field
         self.y_title = y_title  # y-axis label
 
-if treecorr.version < '3.1':
+if has_treecorr and treecorr.version < '3.1':
     treecorr_func_dict = {'gg': treecorr.G2Correlation,
                           'm2': treecorr.G2Correlation,
                           'ng': treecorr.NGCorrelation,
@@ -118,7 +120,7 @@ if treecorr.version < '3.1':
                           'kk': treecorr.K2Correlation,
                           'nk': treecorr.NKCorrelation,
                           'kg': treecorr.KGCorrelation}
-else:
+elif has_treecorr:
     treecorr_func_dict = {'gg': treecorr.GGCorrelation,
                           'm2': treecorr.GGCorrelation,
                           'ng': treecorr.NGCorrelation,
@@ -136,6 +138,7 @@ def CorrelationFunctionSysTest(type=None):
         - GalaxyShear: tangential and cross shear of 'galaxy' type objects around 'galaxy lens' 
           type objects (point-shear correlation function)
         - BrightStarShear: tangential and cross shear of 'galaxy' type objects around 'star bright'
+<<<<<<< HEAD
           type objects (point-shear)
         - StarXGalaxyDensity: number density of 'galaxy' objects around 'star' objects (point-point)
         - StarXStarShear: autocorrelation of the shapes of 'star' type objects (shear-shear)
@@ -144,6 +147,16 @@ def CorrelationFunctionSysTest(type=None):
         - GalaxyDensityCorrelation: position autocorrelation of 'galaxy' type objects (point-point)
         - StarDensityCorrelation: position autocorrelation of 'star' type objects (point-point)
         - Rho1: rho1 statistics (autocorrelation of residual star shapes, shear-shear)
+=======
+          type objects
+        - StarXGalaxyDensity: number density of 'galaxy' objects around 'star' objects
+        - StarXGalaxyShear: shear-shear cross correlation of 'galaxy' and 'star' type objects
+        - StarXStarShear: autocorrelation of the shapes of 'star' type objects
+        - StarXStarSize: autocorrelation of the size residuals for 'star' type objects relative to PSF sizes
+        - GalaxyDensityCorrelation: position autocorrelation of 'galaxy' type objects
+        - StarDensityCorrelation: position autocorrelation of 'star' type objects
+        - Rho1: rho1 statistics (autocorrelation of residual star shapes)
+>>>>>>> 13b8127b6a881f9ae102c889a86b51e52feec124
         - None: an empty BaseCorrelationFunctionSysTest class instance, which can be used for 
           multiple types of correlation functions.  See the documentation for 
           BaseCorrelationFunctionSysTest for more details.  Note that this type has a 
@@ -664,7 +677,7 @@ class StarXStarShearSysTest(BaseCorrelationFunctionSysTest):
     def __call__(self, data, data2=None, random=None, random2=None, config=None, **kwargs):
         return self.getCF('gg', data, data2, random, random2, config=config, **kwargs)
 
-class StarXStarSizeResidualSysTest(CorrelationFunctionSysTest):
+class StarXStarSizeResidualSysTest(BaseCorrelationFunctionSysTest):
     """
     Compute the auto correlation of star-PSF size residuals.
     """
@@ -687,7 +700,7 @@ class StarXStarSizeResidualSysTest(CorrelationFunctionSysTest):
         return self.getCF('kk', config=config, *data_list, **new_kwargs)
 
 
-class Rho1SysTest(CorrelationFunctionSysTest):
+class Rho1SysTest(BaseCorrelationFunctionSysTest):
     """
     Compute the auto-correlation of residual star shapes (star shapes - psf shapes).
     """
@@ -1119,6 +1132,7 @@ def ScatterPlotSysTest(type=None):
         - ResidualVsPSFG1: (star - PSF) g1 vs PSF g1
         - ResidualVsPSFG2: (star - PSF) g1 vs PSF g2
         - ResidualVsPSFSigma: (star - PSF) g1 vs PSF sigma
+        - ResidualSigmaVsPSFMag: (star - PSF)/PSF sigma vs PSF magnitude
         - None: an empty BaseScatterPlotSysTest class instance, which can be used for multiple types
           of scatter plots.  See the documentation for BaseScatterPlotSysTest (especially the method
           scatterPlot) for more details.  Note that this type has a different call signature than
@@ -1532,7 +1546,7 @@ class ScatterPlotStarVsPSFG1SysTest(BaseScatterPlotSysTest):
     required_quantities = [('g1', 'g1_err', 'psf_g1')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotStarVsPSFG1SysTest,
+        return super(BaseScatterPlotStarVsPSFG1SysTest,
                      self).__call__(array, 'psf_g1', 'g1', 'g1_err', residual=False,
                                     per_ccd_stat=per_ccd_stat, xlabel=r'$g^{\rm PSF}_1$',
                                     ylabel=r'$g^{\rm star}_1$', color=color, lim=lim,
@@ -1547,7 +1561,7 @@ class ScatterPlotStarVsPSFG2SysTest(BaseScatterPlotSysTest):
     required_quantities = [('g2', 'g2_err', 'psf_g2')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotStarVsPSFG2SysTest,
+        return super(BaseScatterPlotStarVsPSFG2SysTest,
                      self).__call__(array, 'psf_g2', 'g2', 'g2_err', residual=False,
                                     per_ccd_stat=per_ccd_stat, xlabel=r'$g^{\rm PSF}_2$',
                                     ylabel=r'$g^{\rm star}_2$', color=color, lim=lim,
@@ -1562,7 +1576,7 @@ class ScatterPlotStarVsPSFSigmaSysTest(BaseScatterPlotSysTest):
     required_quantities = [('sigma', 'sigma_err', 'psf_sigma')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotStarVsPSFSigmaSysTest,
+        return super(BaseScatterPlotStarVsPSFSigmaSysTest,
                      self).__call__(array, 'psf_sigma', 'sigma', 'sigma_err', residual=False,
                                     per_ccd_stat=per_ccd_stat,
                                     xlabel=r'$\sigma^{\rm PSF}$ [arcsec]',
@@ -1578,7 +1592,7 @@ class ScatterPlotResidualVsPSFG1SysTest(BaseScatterPlotSysTest):
     required_quantities = [('g1', 'g1_err', 'psf_g1')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotResidualVsPSFG1SysTest,
+        return super(BaseScatterPlotResidualVsPSFG1SysTest,
                      self).__call__(array, 'psf_g1', 'g1', 'g1_err', residual=True,
                                     per_ccd_stat=per_ccd_stat, xlabel=r'$g^{\rm PSF}_1$',
                                     ylabel=r'$g^{\rm star}_1 - g^{\rm PSF}_1$',
@@ -1593,7 +1607,7 @@ class ScatterPlotResidualVsPSFG2SysTest(BaseScatterPlotSysTest):
     required_quantities = [('g2', 'g2_err', 'psf_g2')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotResidualVsPSFG2SysTest,
+        return super(BaseScatterPlotResidualVsPSFG2SysTest,
                      self).__call__(array, 'psf_g2', 'g2', 'g2_err', residual=True,
                                     per_ccd_stat=per_ccd_stat, xlabel=r'$g^{\rm PSF}_2$',
                                     ylabel=r'$g^{\rm star}_2 - g^{\rm PSF}_2$',
@@ -1608,7 +1622,7 @@ class ScatterPlotResidualVsPSFSigmaSysTest(BaseScatterPlotSysTest):
     required_quantities = [('sigma', 'sigma_err', 'psf_sigma')]
 
     def __call__(self, array, per_ccd_stat=None, color='', lim=None):
-        return super(ScatterPlotResidualVsPSFSigmaSysTest,
+        return super(BaseScatterPlotResidualVsPSFSigmaSysTest,
                      self).__call__(array, 'psf_sigma', 'sigma', 'sigma_err', residual=True,
                                     per_ccd_stat=per_ccd_stat,
                                     xlabel=r'$\sigma^{\rm PSF}$ [arcsec]',
@@ -1617,7 +1631,7 @@ class ScatterPlotResidualVsPSFSigmaSysTest(BaseScatterPlotSysTest):
                                     linear_regression=True, reference_line='zero')
 
 
-class ScatterPlotResidualSigmaVsPSFMagSysTest(ScatterPlotSysTest):
+class ScatterPlotResidualSigmaVsPSFMagSysTest(BaseScatterPlotSysTest):
     short_name = 'scatterplot_residual_sigma_vs_psf_magnitude'
     long_name = 'Make a scatter plot of residual sigma vs PSF magnitude'
     objects_list = ['star PSF']
@@ -1634,7 +1648,7 @@ class ScatterPlotResidualSigmaVsPSFMagSysTest(ScatterPlotSysTest):
         use_array = numpy.lib.recfunctions.append_fields(use_array, 'sigma_residual_frac_err',
                                                          use_array['sigma_err']
                                                          /use_array['psf_sigma'])
-        return super(ScatterPlotResidualSigmaVsPSFMagSysTest,
+        return super(BaseScatterPlotResidualSigmaVsPSFMagSysTest,
                      self).__call__(use_array, 'mag_inst', 'sigma_residual_frac',
                                     'sigma_residual_frac_err', residual=False,
                                     per_ccd_stat=self.per_ccd_stat,
